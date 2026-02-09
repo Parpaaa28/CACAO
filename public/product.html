@@ -1,0 +1,472 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Product</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --accent:#6c584c;
+      --accent-2:#6c584c;
+      --text:#111111;
+      --border:#6c584c;
+      --white:#ffffff;
+    }
+    body{font-family:'Montserrat',Segoe UI,Tahoma,sans-serif;margin:0;color:var(--text);background:var(--bg)}
+    header.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--panel);padding:12px 16px;border-bottom:1px solid var(--border)}
+    .brand{font-size:20px;font-weight:700;letter-spacing:.5px}
+    .page{max-width:1100px;margin:0 auto;padding:18px}
+    .nav a,.nav button{margin-right:8px;text-decoration:none;color:var(--text);padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--panel);cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .2s ease}
+.icon{width:32px;height:32px;overflow:visible}
+    .icon path,.icon circle,.icon rect{stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .pill{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--panel)}
+    .card{border:1px solid var(--border);border-radius:16px;padding:18px;background:var(--white);box-shadow:0 10px 24px rgba(108,88,76,.10)}
+    .crumbs{font-size:12px;color:var(--accent-2);margin:4px 0 12px 0}
+    .crumbs a{color:var(--accent-2);text-decoration:none}
+    .product-layout{display:grid;grid-template-columns:minmax(300px,1.1fr) minmax(260px,1fr);gap:18px;align-items:start}
+    .gallery{display:grid;gap:12px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:12px}
+    .main-img{width:100%;height:320px;object-fit:cover;border-radius:12px;border:1px solid var(--border);background:var(--bg);display:block}
+    .main-img.placeholder{display:flex;align-items:center;justify-content:center;color:var(--accent-2);font-size:12px}
+    .thumbs{display:flex;gap:8px;flex-wrap:wrap}
+    .thumbs img{width:76px;height:76px;object-fit:cover;border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+    .thumbs img:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(108,88,76,.15)}
+    .info{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px}
+    .info h2{margin:0 0 6px 0;font-size:24px}
+    .info .meta{color:#666;font-size:13px}
+    .rating-line{display:flex;align-items:center;gap:8px;font-size:13px;margin:6px 0;color:#6c584c}
+    .rating-stars{letter-spacing:2px;color:#6c584c}
+    .rating-score{color:#666}
+    .info .price{margin-top:10px;font-weight:700;font-size:18px}
+    .info .stock{margin-top:8px;color:#6c584c}
+    .chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+    .chip{font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:var(--white);color:var(--accent-2)}
+    .details-list{display:grid;gap:6px;margin-top:10px;font-size:13px;color:#333}
+    .detail-item{display:flex;justify-content:space-between;gap:12px}
+    .detail-label{color:#666}
+    .section{margin-top:16px}
+    .section h3{margin:0 0 8px 0}
+    .reviews{margin-top:14px}
+    .review-card{border:1px solid var(--border);border-radius:12px;padding:10px;background:var(--white);margin-top:6px}
+    button{cursor:pointer}
+    .btn{padding:9px 14px;border:1px solid var(--border);border-radius:10px;background:var(--accent);cursor:pointer;color:var(--text);transition:filter .2s ease,transform .2s ease,box-shadow .2s ease}
+    .btn-secondary{background:var(--panel)}
+    .btn:hover,.btn:focus-visible{filter:brightness(.93);transform:translateY(-1px);box-shadow:0 4px 10px rgba(108,88,76,.15)}
+    .btn:active{transform:translateY(0);filter:brightness(.9)}
+    .fade-item{opacity:0;transform:translateY(18px);transition:opacity 1.2s ease,transform 1.2s ease}
+    .fade-item.in-view{opacity:1;transform:translateY(0)}
+    @media (max-width: 900px){
+      .product-layout{grid-template-columns:1fr}
+      .main-img{height:260px}
+    }
+      /* Footer */
+    .site-footer{margin-top:28px;background:#fff;border-top:1px solid var(--border)}
+    .site-footer .footer-inner{max-width:1200px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:1.2fr .8fr .9fr 1.2fr;gap:24px}
+    .site-footer .footer-logo{font-size:26px;font-weight:800;letter-spacing:.5px;color:var(--text);background:var(--panel);display:inline-block;padding:8px 14px;border-radius:10px}
+    .footer-title{font-weight:700;margin-bottom:10px}
+    .footer-col a{display:block;color:var(--text);text-decoration:none;margin:8px 0}
+    .footer-col a:hover{text-decoration:underline}
+    .footer-note{font-size:13px;color:var(--accent-2);line-height:1.4}
+    .footer-apps{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .app-badge{background:#111;color:#fff;padding:8px 12px;border-radius:8px;font-size:12px}
+    .app-badge{display:inline-flex;align-items:center;gap:8px}
+    .app-icon{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;background:#fff;color:#111;border-radius:4px}.app-icon svg{width:14px;height:14px;display:block}.app-icon path,.app-icon circle,.app-icon rect,.app-icon polygon{fill:currentColor;stroke:none}
+    .footer-form{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .footer-form input{padding:10px 12px;border:1px solid #222;border-radius:8px;background:#fff;color:#111}
+    .footer-form button{padding:10px 12px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer}
+    .footer-social{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+    .social-pill{width:66px;height:66px;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;color:var(--text);text-decoration:none;background:var(--white)}
+    .social-pill svg{width:36px;height:36px;display:block;transform:translateY(12px)}
+    .social-pill svg path,.social-pill svg circle,.social-pill svg rect{stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .footer-follow-title{margin-top:14px}
+    .footer-bottom{border-top:1px solid var(--border);padding:12px 16px;text-align:center;font-size:12px;color:var(--accent-2)}
+    @media (max-width: 900px){
+      .site-footer .footer-inner{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .site-footer .footer-inner{grid-template-columns:1fr}
+    }
+        /* Simple header */
+    .topbar{background:#111;color:#fff;text-align:center;font-size:12px;letter-spacing:.3px;padding:8px 16px}
+    header.top{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--border);padding:0;display:block}
+    .top .mainbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:12px 16px}
+    .top .brand{text-decoration:none;color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;order:0}
+    .top .nav{display:flex;align-items:center;justify-content:center;gap:24px;flex:1 1 auto;flex-wrap:wrap;order:1}
+    .top .nav a,.top .nav button{border:none;background:transparent;color:var(--text);padding:6px 0;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-family:inherit}
+    .top .nav .icon{display:none}
+    .top .nav-right{display:flex;align-items:center;gap:10px;order:2;margin-left:auto}
+    .top .icon-only{width:34px;height:34px;border:1px solid var(--border);border-radius:50%;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--text);padding:0}
+    .top .icon-only svg{width:18px;height:18px}
+    .top .icon-only svg path,.top .icon-only svg circle,.top .icon-only svg rect{stroke:var(--border);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    #nav-user{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2)}
+    .top .nav-right .pill{border:none;background:transparent;padding:0}
+    @media (max-width:900px){
+      .top .mainbar{flex-wrap:wrap;justify-content:center}
+      .top .brand{flex-basis:100%;text-align:center}
+      .top .nav{justify-content:center;order:2;flex-basis:100%}
+      .top .nav-right{order:1;width:100%;justify-content:center;margin-left:0}
+    }  </style>
+</head>
+<body>
+  <div class="topbar">Enjoy Free Local Shipping with a minimum spend of PHP 1,499</div>
+  <header class="top">
+    <div class="mainbar">
+    <div class="brand">CACAO CENTRAL</div>
+      <nav class="nav">
+      <a href="/">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 11.5l9-7 9 7"></path>
+          <path d="M5 10.5V20h5v-5h4v5h5V10.5"></path>
+        </svg>
+        Home
+      </a>
+      <a href="/cart.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 5h2l2.5 11h9l2-7H7.5"></path>
+          <circle cx="10" cy="19" r="1.5"></circle>
+          <circle cx="17" cy="19" r="1.5"></circle>
+        </svg>
+        Cart (<span id="nav-cart-count">0</span>)
+      </a>
+      <a href="/wishlist.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 20s-7-4.4-9-8.2C1.7 9 3.2 6.5 6 6.5c1.8 0 3.1 1 4 2.3 0.9-1.3 2.2-2.3 4-2.3 2.8 0 4.3 2.5 3 5.3C19 15.6 12 20 12 20z"></path>
+        </svg>
+        Wishlist (<span id="nav-wishlist-count">0</span>)
+      </a>
+      <a href="/orders.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4" y="6" width="16" height="12" rx="2"></rect>
+          <path d="M4 10h16"></path>
+        </svg>
+        Orders
+      </a>
+      <a href="/about.html">About</a>
+      <a href="/admin.html" id="nav-admin" style="display:none">Admin</a>
+    </nav>
+      <div class="nav-right">
+        <a href="/login.html" id="nav-profile" class="icon-only" aria-label="Profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg></a>
+        <button id="nav-logout" class="icon-only" style="display:none" aria-label="Logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5"></path><path d="M14 8l4 4-4 4"></path><path d="M18 12H9"></path></svg></button>
+        <div id="nav-user" class="pill">Not logged in</div>
+      </div>
+      </div>
+  </header>
+
+  <div class="page">
+    <div id="status">Loading...</div>
+    <div id="wrap"></div>
+  </div>
+
+  <script src="/site.js"></script>
+  <script>
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("in-view");
+        }else{
+          entry.target.classList.remove("in-view");
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -10% 0px" });
+
+    function observeFade(root){
+      (root || document).querySelectorAll(".fade-item").forEach(el => fadeObserver.observe(el));
+    }
+
+    function ratingFor(p){
+      const base = 4 + ((Number(p.id || 1) * 7) % 10) / 10;
+      const rating = Math.min(4.9, Number(base.toFixed(1)));
+      const count = 20 + ((Number(p.id || 1) * 13) % 80);
+      const full = Math.max(1, Math.floor(rating));
+      const stars = "&#9733;".repeat(full) + "&#9734;".repeat(5 - full);
+      return { rating, count, stars };
+    }
+
+    function detailsFor(p){
+      const cat = p.category || "Uncategorized";
+      const stockLabel = p.stock === 0 ? "Out of stock" : (p.stock <= 5 ? "Low stock" : "In stock");
+      return { cat, stockLabel };
+    }
+
+    async function load(){
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id");
+      if(!id){
+        document.getElementById("status").textContent = "Missing product id.";
+        return;
+      }
+
+      const r = await fetch("/api/products/" + id);
+      const j = await r.json();
+      if(!j.ok){
+        document.getElementById("status").textContent = "Error: " + (j.error||"failed");
+        return;
+      }
+
+      const p = j.data;
+      document.getElementById("status").textContent = "";
+      const wrap = document.getElementById("wrap");
+
+      const img = p.image_url
+        ? `<img id="main-img" class="main-img" src="${p.image_url}" alt="${p.name}">`
+        : `<div class="main-img placeholder">No image</div>`;
+
+      const thumb = p.image_url ? `
+        <div class="thumbs">
+          <img src="${p.image_url}" alt="thumb 1">
+          <img src="${p.image_url}" alt="thumb 2">
+          <img src="${p.image_url}" alt="thumb 3">
+        </div>` : "";
+
+      const rating = ratingFor(p);
+      const details = detailsFor(p);
+
+      wrap.innerHTML = `
+        <div class="card fade-item">
+          <div class="crumbs"><a href="/">Home</a> / <span>${p.category || "Uncategorized"}</span></div>
+          <div class="product-layout">
+            <div class="gallery">
+              ${img}
+              ${thumb}
+            </div>
+            <div class="info">
+              <h2>${p.name}</h2>
+              <div class="rating-line">
+                <span class="rating-stars">${rating.stars}</span>
+                <span class="rating-score">${rating.rating} (${rating.count} reviews)</span>
+              </div>
+              <div class="meta">Category: ${details.cat}</div>
+              <div class="meta">Availability: ${details.stockLabel}</div>
+              <div class="chips">
+                <span class="chip">CACAO CENTRAL</span>
+                <span class="chip">Fresh Stock</span>
+              </div>
+              <div>${p.description || ""}</div>
+              <div class="details-list">
+                <div class="detail-item"><span class="detail-label">Origin</span><span>Philippines</span></div>
+                <div class="detail-item"><span class="detail-label">Best for</span><span>${details.cat}</span></div>
+                <div class="detail-item"><span class="detail-label">Storage</span><span>Cool, dry place</span></div>
+              </div>
+              <div class="price">${formatPHP(p.price)}</div>
+              <div class="stock">Stock: ${p.stock}</div>
+              <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn" id="add">Add to Cart</button>
+                <button class="btn btn-secondary" id="wish">Save</button>
+              </div>
+            </div>
+          </div>
+          <div class="section reviews">
+            <h3>Reviews</h3>
+            <div id="reviews-box"></div>
+            <input id="review-name" placeholder="Your name" style="width:100%;margin:6px 0;">
+            <select id="review-rating" style="width:100%;margin:6px 0;">
+              <option value="5">5 - Excellent</option>
+              <option value="4">4 - Good</option>
+              <option value="3">3 - Okay</option>
+              <option value="2">2 - Poor</option>
+              <option value="1">1 - Bad</option>
+            </select>
+            <textarea id="review-text" placeholder="Write a review" rows="3" style="width:100%;margin:6px 0;"></textarea>
+            <button class="btn" id="review-submit">Submit Review</button>
+          </div>
+          <div class="section">
+            <h3>FAQ</h3>
+            <p><b>Is this product fresh?</b> Yes, we restock weekly.</p>
+            <p><b>How to store?</b> Keep in a cool, dry place.</p>
+          </div>
+          <div class="section">
+            <h3>Related Products</h3>
+            <div id="related"></div>
+          </div>
+        </div>
+      `;
+
+      observeFade(wrap);
+
+      document.getElementById("add").addEventListener("click", async ()=>{
+        const me = await requireLogin();
+        if(!me) return;
+        const r2 = await fetch("/api/cart/add", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body: JSON.stringify({ product_id: p.id, qty: 1 })
+        });
+        const j2 = await r2.json();
+        alert(j2.ok ? "Added to cart!" : ("Error: " + (j2.error || "failed")));
+        updateCartBadge();
+      });
+
+      document.getElementById("wish").addEventListener("click", async ()=>{
+        const me = await requireLogin();
+        if(!me) return;
+        const r2 = await fetch("/api/wishlist/add", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body: JSON.stringify({ product_id: p.id })
+        });
+        const j2 = await r2.json();
+        alert(j2.ok ? "Saved to wishlist!" : ("Error: " + (j2.error || "failed")));
+      });
+
+      if(p.image_url){
+        wrap.querySelectorAll(".thumbs img").forEach(imgEl => {
+          imgEl.addEventListener("click", ()=> {
+            const main = document.getElementById("main-img");
+            if(main) main.src = imgEl.src;
+          });
+        });
+      }
+
+      // Reviews (localStorage)
+      const key = "reviews_" + p.id;
+      const box = document.getElementById("reviews-box");
+      const renderReviews = () => {
+        const list = JSON.parse(localStorage.getItem(key) || "[]");
+        box.innerHTML = list.length ? "" : "<div style='color:#888;'>No reviews yet.</div>";
+        list.forEach(r => {
+          const div = document.createElement("div");
+          div.className = "review-card";
+          const rating = Number(r.rating || 5);
+          const stars = "&#9733;".repeat(rating) + "&#9734;".repeat(5 - rating);
+          div.innerHTML = `<b>${r.name}</b> <span class="rating-stars">${stars}</span><div>${r.text}</div>`;
+          box.appendChild(div);
+        });
+      };
+      renderReviews();
+      document.getElementById("review-submit").addEventListener("click", ()=>{
+        const name = document.getElementById("review-name").value.trim() || "Anonymous";
+        const rating = Number(document.getElementById("review-rating").value || 5);
+        const text = document.getElementById("review-text").value.trim();
+        if(!text) return;
+        const list = JSON.parse(localStorage.getItem(key) || "[]");
+        list.unshift({ name, text, rating });
+        localStorage.setItem(key, JSON.stringify(list.slice(0,10)));
+        document.getElementById("review-text").value = "";
+        renderReviews();
+      });
+
+      // Related products
+      const relBox = document.getElementById("related");
+      const relRes = await fetch("/api/products?category=" + encodeURIComponent(p.category || ""));
+      const relJson = await relRes.json();
+      if(relJson.ok){
+        const rel = (relJson.data || []).filter(x => x.id !== p.id).slice(0,4);
+        relBox.innerHTML = rel.map(x => `<a href="/product.html?id=${x.id}">${x.name}</a>`).join("<br>");
+      }
+
+      // Recently viewed
+      try{
+        const raw = localStorage.getItem("recent_products");
+        const arr = raw ? JSON.parse(raw) : [];
+        const filtered = arr.filter(x => x.id !== p.id);
+        filtered.unshift({ id: p.id, name: p.name, price: p.price, image_url: p.image_url, category: p.category });
+        localStorage.setItem("recent_products", JSON.stringify(filtered.slice(0,8)));
+      }catch(e){}
+    }
+
+    load();
+  </script>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">CACAO CENTRAL</div>
+        <p class="footer-note">Premium cacao goods crafted in the Philippines.</p>
+        <div class="footer-apps">
+          <div class="app-badge app-apple"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7c-3 0-5 2.2-5 5.2 0 3.4 2.1 6.3 5 6.3s5-2.9 5-6.3C17 9.2 15 7 12 7z"/><path d="M12.4 5.2c.9-1.2 2-1.7 3.1-1.8-.1 1.2-.8 2.3-1.6 2.9-.7.6-1.8 1-2.8.9-.1-1.1.4-1.6 1.3-2z"/></svg></span>App Store</div>
+          <div class="app-badge app-play"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></span>Google Play</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Explore</div>
+        <a href="/">Home</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/policy.html">Privacy Policy</a>
+        <a href="/policy.html">Terms of Use</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Customer Care</div>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/orders.html">Track Order</a>
+        <a href="/faq.html">Help Center</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Subscribe &amp; Get 10% Off Your First Order</div>
+        <div class="footer-note">Get exclusive access to new drops, promos, and more.</div>
+        <form class="footer-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!')">
+          <input type="email" placeholder="Your email" required>
+          <button type="submit">Sign Up</button>
+        </form>
+        <div class="footer-title footer-follow-title">Follow Us</div>
+                <div class="footer-social">
+          <a class="social-pill" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="4"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17" cy="7" r="1"></circle>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v5h3v-5h3l1-3h-4v-2c0-.6.4-1 1-1z"></path>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="12" rx="3"></rect>
+              <path d="M10 9l5 3-5 3z"></path>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3c1.2 1.7 2.7 2.6 5 2.7v3c-1.6 0-3-.4-4.5-1.2V14a5 5 0 1 1-5-5"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 CACAO CENTRAL. All rights reserved.</div>
+  </footer></body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

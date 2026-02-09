@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Mini Shop</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --accent:#6c584c;
+      --accent-2:#6c584c;
+      --text:#111111;
+      --border:#6c584c;
+      --white:#ffffff;
+      --control-h:42px;
+    }
+    body{font-family:'Montserrat',Segoe UI,Tahoma,sans-serif;margin:0;color:var(--text);background:var(--bg)}
+    .page{max-width:1200px;margin:0 auto;padding:16px}
+    .hero{position:relative;background:#f6f2ea url('/assets/cacao-hero.svg') center/cover no-repeat;min-height:520px;display:flex;align-items:center;overflow:hidden}
+    .hero::after{content:"";position:absolute;inset:0;z-index:1;background:transparent}
+    .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+    .hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:42px 16px 54px;display:flex;flex-direction:column;gap:10px;text-align:center;align-items:center}
+    .hero-title{font-size:48px;letter-spacing:.08em;text-transform:uppercase;margin:0;color:#ffffff}
+    .hero-sub{font-size:16px;max-width:520px;margin:0;color:#ffffff}
+    .hero-cta{margin-top:10px;display:flex;gap:12px;align-items:center;justify-content:center}
+    .hero-cta .btn{padding:10px 18px;color:#ffffff}
+    header.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--panel);padding:10px 16px;border-bottom:1px solid var(--border)}
+    .brand{font-size:22px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+    .searchbar{display:flex;align-items:center;flex:1 1 320px;min-width:240px;max-width:520px}
+    .page-search{max-width:720px;margin:12px auto 4px}
+    .search-pill{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:4px;width:100%;box-shadow:0 2px 6px rgba(108,88,76,.12)}
+    .search-pill .sel{min-width:90px}
+    .search-pill select{border:1px solid var(--border);background:var(--white);color:var(--text);border-radius:999px;padding:0 14px;height:var(--control-h);appearance:none;cursor:pointer}
+    .search-pill input{flex:1;border:1px solid var(--border);background:var(--white);border-radius:999px;padding:0 14px;height:var(--control-h);color:var(--text);outline:none;transition:opacity .25s ease,transform .25s ease}
+    .search-pill input.placeholder-out{opacity:.2;transform:translateY(-3px)}
+    .search-pill input.placeholder-in{opacity:1;transform:translateY(0)}
+    .search-pill button{border:none;background:var(--accent);width:var(--control-h);height:var(--control-h);border-radius:50%;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+    .search-pill button .icon path,
+    .search-pill button .icon circle{stroke:var(--white)}
+    #nav-user{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2)}
+    .mainbar .pill{border:none;background:transparent;padding:0}
+    .nav{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+    .nav a,.nav button{text-decoration:none;color:var(--text);padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel);cursor:pointer;display:inline-flex;align-items:center;gap:8px;height:var(--control-h);white-space:nowrap;transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .2s ease}
+    .icon{width:28px;height:28px;overflow:visible}
+    .icon path,.icon circle,.icon rect{stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .pill{display:inline-flex;align-items:center;height:var(--control-h);padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--panel)}
+    .search{margin:16px 0;display:flex;gap:8px;flex-wrap:wrap}
+    .search input,.search select{padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--white);color:var(--text)}
+    .search #cat{display:none}
+    .promo-card{border:1px dashed var(--border);border-radius:12px;background:var(--panel);margin:12px 0;padding:10px 14px;display:flex;align-items:center;gap:10px;min-height:44px}
+    .promo-label{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent-2)}
+    .promo-text{font-size:13px;letter-spacing:.02em;transition:opacity .35s ease,transform .35s ease}
+    .promo-text.fade-out{opacity:0;transform:translateY(6px)}
+    .btn{padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--accent);cursor:pointer;color:var(--text);transition:filter .2s ease,transform .2s ease,box-shadow .2s ease}
+    .btn-secondary{background:var(--panel)}
+    .btn:hover,.btn:focus-visible{filter:brightness(.93);transform:translateY(-1px);box-shadow:0 4px 10px rgba(108,88,76,.15)}
+    .btn:active{transform:translateY(0);filter:brightness(.9)}
+    .actions a.btn{display:inline-flex;align-items:center}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;margin-top:18px}
+    .card{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel);display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(14px);transition:opacity .35s ease,transform .35s ease,box-shadow .25s ease}
+    .card:hover{box-shadow:0 10px 26px rgba(17,17,17,.12)}
+    .card.reveal{opacity:1;transform:translateY(0)}
+    .img{height:190px;border-radius:10px;background:#f7f7f7;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--accent-2);font-size:12px}
+    .prod-name{font-weight:600;font-size:15px;letter-spacing:.02em}
+    .prod-desc{color:#444;font-size:13px;min-height:34px}
+    .stock{font-size:12px}
+    .price{font-weight:700;font-size:16px}
+    .tag{font-size:12px;color:var(--accent-2);text-transform:uppercase;letter-spacing:.08em}
+    .card-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .card-actions .icon-group{display:flex;gap:8px}
+    .icon-btn{width:40px;height:40px;border:1px solid var(--border);border-radius:999px;background:var(--white);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+    .icon-btn svg{width:20px;height:20px}
+    .icon-btn svg path,.icon-btn svg circle,.icon-btn svg rect{stroke:var(--border);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .icon-btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(17,17,17,.12)}
+    .text-link{font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#ffffff}
+    .cat-section{margin-top:28px}
+    .cat-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .cat-title{font-size:18px;letter-spacing:.08em;text-transform:uppercase;margin:0}
+    .cat-nav{display:flex;gap:8px}
+    .arrow-btn{width:36px;height:36px;border:1px solid var(--border);border-radius:999px;background:var(--white);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+    .arrow-btn svg{width:18px;height:18px}
+    .arrow-btn svg path{stroke:var(--border);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .cat-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(240px,1fr);gap:18px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory}
+    .cat-row::-webkit-scrollbar{height:6px}
+    .cat-row::-webkit-scrollbar-thumb{background:rgba(108,88,76,.4);border-radius:999px}
+    .cat-card{border:1px solid transparent;border-radius:0;overflow:hidden;background:var(--white);display:flex;flex-direction:column;scroll-snap-align:start;transition:border-color .2s ease,box-shadow .2s ease;cursor:pointer}
+    .cat-card:hover{border-color:var(--border);box-shadow:0 8px 18px rgba(17,17,17,.08)}
+
+    .cat-card{position:relative}
+    .card-overlay{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(255,255,255,.88) 55%,rgba(255,255,255,.96) 100%);display:flex;align-items:flex-end;justify-content:flex-start}
+    .card-overlay .info-left{display:flex;flex-direction:column;gap:4px}
+    .card-overlay .name{font-size:14px;font-weight:600}
+    .card-overlay .price-row{display:flex;align-items:center;gap:8px;font-size:13px}
+    .price-old{text-decoration:line-through;color:#8f8f8f}
+    .price-new{font-weight:700}
+    .card-badge{position:absolute;top:10px;left:10px;background:var(--white);border:1px solid var(--border);padding:4px 8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+    .stock-pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#6c584c}
+    .learn-more{display:none}
+
+    .cat-card:focus-visible{outline:2px solid var(--border);outline-offset:3px}
+    .cat-media{height:220px;background:#f7f7f7;border-bottom:1px solid #e2ddd6;display:flex;align-items:center;justify-content:center}
+    .cat-media img{width:100%;height:100%;object-fit:cover;display:block}
+    .cat-body{padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+    .cat-name{font-size:15px;font-weight:600}
+    .cat-price{font-size:15px;font-weight:700}
+    .cat-details{font-size:12px;color:#555}
+    .cat-rating{display:flex;align-items:center;gap:6px;font-size:12px;color:#666}
+    .rating-stars{color:#6c584c;letter-spacing:2px}
+    .rating-score{color:#777}
+    .cat-actions{display:flex;gap:10px;margin-top:6px}
+    .ghost-btn{border:1px solid var(--border);background:transparent;border-radius:0;padding:6px 12px;font-size:12px;cursor:pointer}
+    .fade-item{opacity:0;transform:translateY(18px);transition:opacity 1.2s ease,transform 1.2s ease}
+    .fade-item.in-view{opacity:1;transform:translateY(0)}
+    .feature-section{margin-top:22px}
+    .section-head{display:flex;flex-direction:column;gap:6px}
+    .section-title{font-size:18px;letter-spacing:.1em;text-transform:uppercase;margin:0}
+    .section-sub{font-size:13px;color:#555;margin:0}
+    .testimonial-card{border:1px solid var(--border);padding:18px;background:var(--panel);max-width:680px;transition:opacity .4s ease,transform .4s ease}
+    .testimonial-card.fade-out{opacity:0;transform:translateY(6px)}
+    .testimonial-quote{font-size:16px;line-height:1.6;margin:0 0 10px 0}
+    .testimonial-name{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2)}
+    .timeline{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .timeline-item{border:1px solid var(--border);padding:12px;background:var(--panel);text-align:center}
+    .timeline-item h4{margin:0 0 6px 0;font-size:12px;text-transform:uppercase;letter-spacing:.12em}
+    .timeline-item p{margin:0;color:#555;font-size:13px;line-height:1.6}
+    .timeline-icon{width:40px;height:40px;border:1px solid var(--border);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin:0 auto 10px;background:var(--white)}
+    .timeline-icon svg{width:20px;height:20px}
+    .timeline-icon svg path,.timeline-icon svg circle,.timeline-icon svg rect{stroke:var(--border);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .locator-grid{margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .locator-card{position:relative;border:1px solid var(--border);padding:0;background:var(--panel);min-height:260px;overflow:hidden}
+    .locator-media{height:260px;background:#f2eee8 center/cover no-repeat}
+    .locator-overlay{position:absolute;top:0;left:0;bottom:0;width:45%;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(90deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.2) 45%,rgba(255,255,255,0) 100%)}
+    .locator-card h4{margin:0 0 6px 0;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#ffffff}
+    .locator-card p{margin:0;color:#f2f2f2;font-size:13px;line-height:1.5}
+    footer{margin-top:24px;padding:10px 0;border-top:1px solid var(--border)}
+    footer a{margin-right:10px;color:var(--text);text-decoration:none}
+      /* Footer */
+    .site-footer{margin-top:28px;background:#fff;border-top:1px solid var(--border)}
+    .site-footer .footer-inner{max-width:1200px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:1.2fr .8fr .9fr 1.2fr;gap:24px}
+    .site-footer .footer-logo{font-size:26px;font-weight:800;letter-spacing:.5px;color:var(--text);background:var(--panel);display:inline-block;padding:8px 14px;border-radius:10px}
+    .footer-title{font-weight:700;margin-bottom:10px}
+    .footer-col a{display:block;color:var(--text);text-decoration:none;margin:8px 0}
+    .footer-col a:hover{text-decoration:underline}
+    .footer-note{font-size:13px;color:var(--accent-2);line-height:1.4}
+    .footer-apps{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .app-badge{background:#111;color:#fff;padding:8px 12px;border-radius:8px;font-size:12px}
+    .app-badge{display:inline-flex;align-items:center;gap:8px}
+    .app-icon{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;background:#fff;color:#111;border-radius:4px}.app-icon svg{width:14px;height:14px;display:block}.app-icon path,.app-icon circle,.app-icon rect,.app-icon polygon{fill:currentColor;stroke:none}
+    .footer-form{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .footer-form input{padding:10px 12px;border:1px solid #222;border-radius:8px;background:#fff;color:#111}
+    .footer-form button{padding:10px 12px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer}
+    .footer-social{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+    .social-pill{width:66px;height:66px;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;color:var(--text);text-decoration:none;background:var(--white)}
+    .social-pill svg{width:36px;height:36px;display:block;transform:translateY(12px)}
+    .social-pill svg path,.social-pill svg circle,.social-pill svg rect{stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .footer-follow-title{margin-top:14px}
+    .footer-bottom{border-top:1px solid var(--border);padding:12px 16px;text-align:center;font-size:12px;color:var(--accent-2)}
+    @media (max-width: 900px){
+      .site-footer .footer-inner{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .site-footer .footer-inner{grid-template-columns:1fr}
+    }
+        /* Simple header */
+    .topbar{background:#111;color:#fff;text-align:center;font-size:12px;letter-spacing:.3px;padding:8px 16px}
+    header.top{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--border);padding:0;display:block}
+    .top .mainbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:12px 16px}
+    .top .brand{text-decoration:none;color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;order:0}
+    .top .nav{display:flex;align-items:center;justify-content:center;gap:24px;flex:1 1 auto;flex-wrap:wrap;order:1}
+    .top .nav a,.top .nav button{border:none;background:transparent;color:var(--text);padding:6px 0;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-family:inherit}
+    .top .nav .icon{display:none}
+    .top .nav-right{display:flex;align-items:center;gap:10px;order:2;margin-left:auto}
+    .top .icon-only{width:34px;height:34px;border:1px solid var(--border);border-radius:50%;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--text);padding:0}
+    .top .icon-only svg{width:18px;height:18px}
+    .top .icon-only svg path,.top .icon-only svg circle,.top .icon-only svg rect{stroke:var(--border);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    #nav-user{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2)}
+    .top .nav-right .pill{border:none;background:transparent;padding:0}
+    @media (max-width:900px){
+      .top .mainbar{flex-wrap:wrap;justify-content:center}
+      .top .brand{flex-basis:100%;text-align:center}
+      .top .nav{justify-content:center;order:2;flex-basis:100%}
+      .top .nav-right{order:1;width:100%;justify-content:center;margin-left:0}
+    }  </style>
+</head>
+<body>
+  <div class="topbar">Enjoy Free Local Shipping with a minimum spend of PHP 1,499</div>
+
+  <header class="top">
+    <div class="mainbar">
+    <div class="brand">CACAO CENTRAL</div>
+      <nav class="nav">
+      <a href="/">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 11.5l9-7 9 7"></path>
+          <path d="M5 10.5V20h5v-5h4v5h5V10.5"></path>
+        </svg>
+        Home
+      </a>
+      <a href="/cart.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 5h2l2.5 11h9l2-7H7.5"></path>
+          <circle cx="10" cy="19" r="1.5"></circle>
+          <circle cx="17" cy="19" r="1.5"></circle>
+        </svg>
+        Cart (<span id="nav-cart-count">0</span>)
+      </a>
+      <a href="/wishlist.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 20s-7-4.4-9-8.2C1.7 9 3.2 6.5 6 6.5c1.8 0 3.1 1 4 2.3 0.9-1.3 2.2-2.3 4-2.3 2.8 0 4.3 2.5 3 5.3C19 15.6 12 20 12 20z"></path>
+        </svg>
+        Wishlist (<span id="nav-wishlist-count">0</span>)
+      </a>
+      <a href="/orders.html">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4" y="6" width="16" height="12" rx="2"></rect>
+          <path d="M4 10h16"></path>
+        </svg>
+        Orders
+      </a>
+      <a href="/about.html">About</a>
+      <a href="/admin.html" id="nav-admin" style="display:none">Admin</a>
+    </nav>
+      <div class="nav-right">
+        <a href="/login.html" id="nav-profile" class="icon-only" aria-label="Profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg></a>
+        <button id="nav-logout" class="icon-only" style="display:none" aria-label="Logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5"></path><path d="M14 8l4 4-4 4"></path><path d="M18 12H9"></path></svg></button>
+        <div id="nav-user" class="pill">Not logged in</div>
+      </div>
+      </div>
+  </header>
+
+  <section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="/assets/hero.mp4" type="video/mp4">
+    </video>
+    <div class="hero-inner">
+      <h1 class="hero-title">CACAO CENTRAL</h1>
+      <p class="hero-sub">Small-batch cacao, bean-to-bar essentials, and cocoa craft goods inspired by the Philippines.</p>
+      <div class="hero-cta">
+        <button class="btn" onclick="document.getElementById('category-sections').scrollIntoView({ behavior: 'smooth' })">Shop Now</button>
+        <a class="text-link" href="/wishlist.html">View Wishlist</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="page">
+    <div class="promo-card" aria-live="polite">
+      <span class="promo-label">Promo</span>
+      <span id="promo-text" class="promo-text">Buy 2 chocolate bars and get 10% off. Use code SAVE10.</span>
+    </div>
+    <section class="feature-section fade-item" id="testimonials">
+      <div class="section-head">
+        <h3 class="section-title">Customer Love</h3>
+        <p class="section-sub">Real feedback from cacao lovers across the Philippines.</p>
+      </div>
+      <div class="testimonial-card" id="testimonial-card">
+        <p class="testimonial-quote" id="testimonial-quote">"Sobrang sarap ng cacao bars. Sakto sa kape."</p>
+        <div class="testimonial-name" id="testimonial-name">- Hazel R., Quezon City</div>
+      </div>
+    </section>
+    <section class="feature-section fade-item" id="timeline">
+      <div class="section-head">
+        <h3 class="section-title">How It's Made</h3>
+        <p class="section-sub">From farm to bar, in a few simple steps.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="6"></circle>
+              <path d="M12 6v6l4 2"></path>
+            </svg>
+          </div>
+          <h4>Harvest & Ferment</h4>
+          <p>Beans are harvested and fermented to develop deep cacao flavor.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 16c4-6 12-6 16 0"></path>
+              <path d="M7 16l-2 4"></path>
+              <path d="M17 16l2 4"></path>
+            </svg>
+          </div>
+          <h4>Roast & Crack</h4>
+          <p>Carefully roasted, then cracked into nibs for a clean profile.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 18h16"></path>
+              <path d="M7 18v-8"></path>
+              <path d="M17 18v-8"></path>
+              <path d="M7 10h10"></path>
+            </svg>
+          </div>
+          <h4>Grind & Conch</h4>
+          <p>Ground into cacao liquor and conched for a smooth finish.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+              <path d="M9 12h6"></path>
+            </svg>
+          </div>
+          <h4>Temper & Pack</h4>
+          <p>Tempered for shine and snap, then packed for freshness.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-section fade-item" id="store-locator">
+      <div class="section-head">
+        <h3 class="section-title">Store Location</h3>
+        <p class="section-sub">Pick up your order at our partner points.</p>
+      </div>
+      <div class="locator-grid">
+        <div class="locator-card">
+          <div class="locator-media" style="background-image:url('/assets/makati.jpg')"></div>
+          <div class="locator-overlay">
+            <h4>Manila - Makati</h4>
+            <p>Ayala Triangle, Makati City</p>
+            <p>Pickup: Mon-Sat, 10AM-7PM</p>
+          </div>
+        </div>
+        <div class="locator-card">
+          <div class="locator-media" style="background-image:url('/assets/morong.jpg')"></div>
+          <div class="locator-overlay">
+            <h4>Rizal - Morong</h4>
+            <p>Sumulong Hwy, Morong, Rizal</p>
+            <p>Pickup: Mon-Sat, 9AM-6PM</p>
+          </div>
+        </div>
+        <div class="locator-card">
+          <div class="locator-media" style="background-image:url('/assets/davao.jpg')"></div>
+          <div class="locator-overlay">
+            <h4>Davao - Downtown</h4>
+            <p>Roxas Ave, Davao City</p>
+            <p>Pickup: Tue-Sun, 10AM-7PM</p>
+          </div>
+        </div>
+      </div>
+</section>
+
+    <div class="searchbar page-search" style="margin-top:40px;">
+      <div class="search-pill">
+        <select class="sel" id="cat-pill">
+          <option value="">All</option>
+        </select>
+        <input id="q" placeholder="Search cacao products" />
+        <button id="btn-search" aria-label="Search">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="6"></circle>
+            <path d="M20 20l-3.5-3.5"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="search">
+      <select id="cat"></select>
+      <select id="sort">
+        <option value="newest">Sort: Newest</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="name-asc">Name: A-Z</option>
+      </select>
+      <input id="min" type="number" min="0" placeholder="Min price" />
+      <input id="max" type="number" min="0" placeholder="Max price" />
+      <button id="btn-reset" class="btn btn-secondary">Reset</button>
+    </div>
+
+    <div id="status">Loading products...</div>
+    <div id="category-sections"></div>
+    <h3 style="margin-top:24px;">Recently Viewed</h3>
+    <div class="grid" id="recent-grid"></div>
+
+      
+  </div>
+
+  
+  <script src="/site.js"></script>
+  <script>
+    const promoText = document.getElementById("promo-text");
+    const promos = [
+      "Buy 2 chocolate bars and get 10% off. Use code SAVE10.",
+      "Get PHP 50 off with code LESS50.",
+      "15% off cacao essentials. Use code ARAYMOPAKAK.",
+      "Free shipping over PHP 999."
+    ];
+    const testimonialCard = document.getElementById("testimonial-card");
+    const testimonialQuote = document.getElementById("testimonial-quote");
+    const testimonialName = document.getElementById("testimonial-name");
+    const testimonials = [
+      { quote: "Sobrang sarap ng cacao bars. Sakto sa kape.", name: "Hazel R., Quezon City" },
+      { quote: "Mabilis ang delivery at maayos ang packaging.", name: "Marco L., Rizal" },
+      { quote: "Fast delivery and the beans are super fresh. Will order again!", name: "Nina C., Makati" },
+      { quote: "I love the ritual cacao. Great for morning focus.", name: "Joanne P., Davao" }
+    ];
+    let promoIndex = 0;
+    let testimonialIndex = 0;
+
+    function rotatePromo(){
+      if(!promoText) return;
+      promoText.classList.add("fade-out");
+      setTimeout(() => {
+        promoText.textContent = promos[promoIndex % promos.length];
+        promoText.classList.remove("fade-out");
+        promoIndex += 1;
+      }, 320);
+    }
+
+    function rotateTestimonial(){
+      if(!testimonialCard) return;
+      testimonialCard.classList.add("fade-out");
+      setTimeout(() => {
+        const item = testimonials[testimonialIndex % testimonials.length];
+        if(testimonialQuote) testimonialQuote.textContent = `"${item.quote}"`;
+        if(testimonialName) testimonialName.textContent = "- " + item.name;
+        testimonialCard.classList.remove("fade-out");
+        testimonialIndex += 1;
+      }, 260);
+    }
+
+    rotatePromo();
+    setInterval(rotatePromo, 3200);
+    rotateTestimonial();
+    setInterval(rotateTestimonial, 4200);
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("in-view");
+        }else{
+          entry.target.classList.remove("in-view");
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -10% 0px" });
+
+    function observeFade(root){
+      (root || document).querySelectorAll(".fade-item").forEach(el => fadeObserver.observe(el));
+    }
+
+    function discountFor(p){
+      const id = Number(p.id || 0);
+      if(!id) return { has:false };
+      const has = id % 3 === 0;
+      if(!has) return { has:false };
+      const old = Number(p.price) * 1.2;
+      return { has:true, old, current: Number(p.price) };
+    }
+
+    function isBestseller(p){
+      return Number(p.id || 0) % 4 === 0;
+    }
+
+    async function loadCategories(){
+      const sel = document.getElementById("cat");
+      const selPill = document.getElementById("cat-pill");
+      sel.innerHTML = "<option value=\"\">All categories</option>";
+      selPill.innerHTML = "<option value=\"\">All</option>";
+      try{
+        const r = await fetch("/api/categories");
+        const j = await r.json();
+        if(!j.ok) return;
+        (j.data || []).forEach(c => {
+          const opt = document.createElement("option");
+          opt.value = c;
+          opt.textContent = c;
+          sel.appendChild(opt);
+          const opt2 = document.createElement("option");
+          opt2.value = c;
+          opt2.textContent = c;
+          selPill.appendChild(opt2);
+        });
+        startSearchPlaceholderCycle(j.data || []);
+      }catch(e){
+        // ignore
+      }
+    }
+
+    async function loadProducts(){
+      const status = document.getElementById("status");
+      const sections = document.getElementById("category-sections");
+      sections.innerHTML = "";
+
+      const q = document.getElementById("q").value.trim();
+      const cat = document.getElementById("cat").value.trim();
+      const sort = document.getElementById("sort").value;
+      const min = document.getElementById("min").value.trim();
+      const max = document.getElementById("max").value.trim();
+
+      const params = new URLSearchParams();
+      if(q) params.set("q", q);
+      if(cat) params.set("category", cat);
+      if(min) params.set("min_price", min);
+      if(max) params.set("max_price", max);
+
+      try{
+        const res = await fetch("/api/products" + (params.toString() ? ("?" + params.toString()) : ""));
+        const json = await res.json();
+        if(!json.ok) throw new Error(json.error || "Failed");
+        let products = json.data || [];
+        if(sort === "price-asc") products.sort((a,b)=>Number(a.price)-Number(b.price));
+        if(sort === "price-desc") products.sort((a,b)=>Number(b.price)-Number(a.price));
+        if(sort === "name-asc") products.sort((a,b)=>String(a.name).localeCompare(String(b.name)));
+        status.textContent = products.length ? "" : "No products yet.";
+        const grouped = {};
+        const order = [];
+        products.forEach(p => {
+          const key = p.category || "Uncategorized";
+          if(!grouped[key]){
+            grouped[key] = [];
+            order.push(key);
+          }
+          grouped[key].push(p);
+        });
+
+        const preferredStart = ["Chocolate & Confections", "Snacks & Bars"];
+        const lastCat = "Roasting & Craft";
+        const orderedCats = [];
+        preferredStart.forEach(k => {
+          if(grouped[k]) orderedCats.push(k);
+        });
+        order.forEach(k => {
+          if(!preferredStart.includes(k) && k !== lastCat) orderedCats.push(k);
+        });
+        if(grouped[lastCat]) orderedCats.push(lastCat);
+
+        orderedCats.forEach((catName) => {
+          const list = grouped[catName] || [];
+          const section = document.createElement("section");
+          section.className = "cat-section";
+          section.innerHTML = `
+            <div class="cat-head">
+              <h3 class="cat-title">${catName}</h3>
+              <div class="cat-nav">
+                <button class="arrow-btn" data-dir="left" aria-label="Scroll left">
+                  <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"></path></svg>
+                </button>
+                <button class="arrow-btn" data-dir="right" aria-label="Scroll right">
+                  <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"></path></svg>
+                </button>
+              </div>
+            </div>
+            <div class="cat-row"></div>
+          `;
+
+          const row = section.querySelector(".cat-row");
+          list.forEach(p => {
+            const card = document.createElement("article");
+            card.className = "cat-card fade-item";
+            const img = p.image_url
+              ? `<img src="${p.image_url}" alt="${p.name}">`
+              : `<div style="color:#6c584c;font-size:12px;">No image</div>`;
+            card.innerHTML = `
+              <div class="cat-media">${img}</div>
+              ${isBestseller(p) ? `<div class="card-badge">Bestseller</div>` : ""}
+              <div class="card-overlay">
+                <div class="info-left">
+                  <div class="name">${p.name}</div>
+                  ${p.stock > 0 && p.stock <= 5 ? `<div class="stock-pill">Limited stock</div>` : ""}
+                  ${discountFor(p).has ? `
+                    <div class="price-row">
+                      <span class="price-new">${formatPHP(discountFor(p).current)}</span>
+                      <span class="price-old">${formatPHP(discountFor(p).old)}</span>
+                    </div>` : `
+                    <div class="price-row">
+                      <span class="price-new">${formatPHP(p.price)}</span>
+                    </div>`}
+                </div>
+              </div>
+            `;
+
+            card.tabIndex = 0;
+            card.setAttribute("role", "button");
+            const openProduct = () => {
+              window.location.href = `/product.html?id=${p.id}`;
+            };
+            card.addEventListener("click", (e) => {
+              if(e.target.closest("a")) return;
+              openProduct();
+            });
+            card.addEventListener("keydown", (e) => {
+              if(e.key === "Enter" || e.key === " "){
+                e.preventDefault();
+                openProduct();
+              }
+            });
+
+            row.appendChild(card);
+          });
+
+          section.querySelectorAll(".arrow-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+              const dir = btn.dataset.dir === "left" ? -1 : 1;
+              row.scrollBy({ left: row.clientWidth * 0.85 * dir, behavior: "smooth" });
+            });
+          });
+
+          sections.appendChild(section);
+        });
+
+        renderRecent();
+        const timeline = document.getElementById("timeline");
+        if(timeline){
+          const target = Array.from(sections.querySelectorAll(".cat-section")).find(sec => {
+            const title = sec.querySelector(".cat-title");
+            return title && title.textContent.trim() === "Chocolate & Confections";
+          });
+          if(target){
+            target.insertAdjacentElement("afterend", timeline);
+          }else{
+            sections.insertAdjacentElement("afterend", timeline);
+          }
+        }
+        observeFade(sections);
+
+      }catch(e){
+        status.textContent = "Error loading products: " + e.message;
+      }
+    }
+
+    document.getElementById("btn-search").addEventListener("click", loadProducts);
+    document.getElementById("cat-pill").addEventListener("change", (e)=>{
+      document.getElementById("cat").value = e.target.value;
+      loadProducts();
+    });
+    document.getElementById("btn-reset").addEventListener("click", () => {
+      document.getElementById("q").value = "";
+      document.getElementById("cat").value = "";
+      document.getElementById("cat-pill").value = "";
+      document.getElementById("sort").value = "newest";
+      document.getElementById("min").value = "";
+      document.getElementById("max").value = "";
+      loadProducts();
+    });
+
+    function renderRecent(){
+      const box = document.getElementById("recent-grid");
+      if(!box) return;
+      const raw = localStorage.getItem("recent_products");
+      const items = raw ? JSON.parse(raw) : [];
+      box.innerHTML = "";
+      if(!items.length){
+        box.innerHTML = "<div style='color:#888;'>No recently viewed products.</div>";
+        return;
+      }
+      items.slice(0,6).forEach(p => {
+        const el = document.createElement("article");
+        el.className = "cat-card fade-item";
+        const img = p.image_url
+          ? `<img src="${p.image_url}" alt="${p.name}">`
+          : `<div style="color:#6c584c;font-size:12px;">No image</div>`;
+        el.innerHTML = `
+          <div class="cat-media">${img}</div>
+          <div class="card-overlay">
+            <div class="info-left">
+              <div class="name">${p.name}</div>
+              <div class="price-row"><span class="price-new">${formatPHP(p.price)}</span></div>
+            </div>
+          </div>
+        `;
+        el.tabIndex = 0;
+        el.setAttribute("role", "button");
+        const openRecent = () => {
+          window.location.href = `/product.html?id=${p.id}`;
+        };
+        el.addEventListener("click", (e) => {
+          if(e.target.closest("a")) return;
+          openRecent();
+        });
+        el.addEventListener("keydown", (e) => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            openRecent();
+          }
+        });
+        box.appendChild(el);
+      });
+      observeFade(box);
+    }
+
+    function startSearchPlaceholderCycle(items){
+      const input = document.getElementById("q");
+      const list = (items || []).filter(Boolean);
+      if(!list.length) return;
+      let idx = 0;
+      const tick = ()=>{
+        input.classList.remove("placeholder-in");
+        input.classList.add("placeholder-out");
+        setTimeout(()=>{
+          const next = list[idx % list.length];
+          input.placeholder = `Search ${next}`;
+          idx += 1;
+          input.classList.remove("placeholder-out");
+          input.classList.add("placeholder-in");
+        }, 220);
+      };
+      input.classList.add("placeholder-in");
+      setInterval(tick, 2200);
+    }
+
+    loadCategories();
+    loadProducts();
+    observeFade();
+  </script>
+
+<footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">CACAO CENTRAL</div>
+        <p class="footer-note">Premium cacao goods crafted in the Philippines.</p>
+        <div class="footer-apps">
+          <div class="app-badge app-apple"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7c-3 0-5 2.2-5 5.2 0 3.4 2.1 6.3 5 6.3s5-2.9 5-6.3C17 9.2 15 7 12 7z"/><path d="M12.4 5.2c.9-1.2 2-1.7 3.1-1.8-.1 1.2-.8 2.3-1.6 2.9-.7.6-1.8 1-2.8.9-.1-1.1.4-1.6 1.3-2z"/></svg></span>App Store</div>
+          <div class="app-badge app-play"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></span>Google Play</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Explore</div>
+        <a href="/">Home</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/policy.html">Privacy Policy</a>
+        <a href="/policy.html">Terms of Use</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Customer Care</div>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/orders.html">Track Order</a>
+        <a href="/faq.html">Help Center</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Subscribe &amp; Get 10% Off Your First Order</div>
+        <div class="footer-note">Get exclusive access to new drops, promos, and more.</div>
+        <form class="footer-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!')">
+          <input type="email" placeholder="Your email" required>
+          <button type="submit">Sign Up</button>
+        </form>
+        <div class="footer-title footer-follow-title">Follow Us</div>
+                <div class="footer-social">
+          <a class="social-pill" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="4"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17" cy="7" r="1"></circle>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v5h3v-5h3l1-3h-4v-2c0-.6.4-1 1-1z"></path>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="12" rx="3"></rect>
+              <path d="M10 9l5 3-5 3z"></path>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3c1.2 1.7 2.7 2.6 5 2.7v3c-1.6 0-3-.4-4.5-1.2V14a5 5 0 1 1-5-5"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 CACAO CENTRAL. All rights reserved.</div>
+  </footer>
+</body>
+</html>
+

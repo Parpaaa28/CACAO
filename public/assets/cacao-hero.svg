@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8f5ef"/>
+      <stop offset="1" stop-color="#efe6d7"/>
+    </linearGradient>
+    <linearGradient id="bean" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6c584c"/>
+      <stop offset="1" stop-color="#8b6d5c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="700" fill="url(#bg)"/>
+  <circle cx="220" cy="540" r="260" fill="#efe1cf"/>
+  <circle cx="1480" cy="160" r="260" fill="#f2e9dc"/>
+  <g opacity="0.85">
+    <ellipse cx="520" cy="360" rx="190" ry="260" fill="url(#bean)"/>
+    <ellipse cx="710" cy="360" rx="190" ry="260" fill="#7b5f50"/>
+    <ellipse cx="900" cy="360" rx="190" ry="260" fill="#5b463c"/>
+  </g>
+  <g opacity="0.2" fill="#6c584c">
+    <rect x="90" y="110" width="220" height="8"/>
+    <rect x="1120" y="560" width="300" height="8"/>
+    <rect x="120" y="140" width="140" height="6"/>
+    <rect x="1140" y="590" width="180" height="6"/>
+  </g>
+</svg>

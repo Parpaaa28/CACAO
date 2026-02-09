@@ -1,0 +1,320 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Admin</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --accent:#6c584c;
+      --accent-2:#6c584c;
+      --text:#111111;
+      --border:#6c584c;
+      --white:#ffffff;
+    }
+    body{font-family:'Montserrat',Segoe UI,Tahoma,sans-serif;max-width:1100px;margin:20px auto;padding:0 12px;color:var(--text);background:var(--bg)}
+    .nav a,.nav button{margin-right:8px;text-decoration:none;color:var(--text);padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--panel);cursor:pointer}
+.pill{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--panel)}
+    .card{border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--panel);margin-bottom:10px}
+    input,textarea,select,button{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:inherit}
+    input,textarea,select{background:var(--white);color:var(--text)}
+    button{cursor:pointer}
+    .btn{padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--accent);cursor:pointer;color:var(--text);transition:filter .2s ease,transform .2s ease,box-shadow .2s ease}
+    .btn-secondary{background:var(--panel)}
+    .btn:hover,.btn:focus-visible{filter:brightness(.93);transform:translateY(-1px);box-shadow:0 4px 10px rgba(108,88,76,.15)}
+    .btn:active{transform:translateY(0);filter:brightness(.9)}
+      /* Footer */
+    .site-footer{margin-top:28px;background:#fff;border-top:1px solid var(--border)}
+    .site-footer .footer-inner{max-width:1200px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:1.2fr .8fr .9fr 1.2fr;gap:24px}
+    .site-footer .footer-logo{font-size:26px;font-weight:800;letter-spacing:.5px;color:var(--text);background:var(--panel);display:inline-block;padding:8px 14px;border-radius:10px}
+    .footer-title{font-weight:700;margin-bottom:10px}
+    .footer-col a{display:block;color:var(--text);text-decoration:none;margin:8px 0}
+    .footer-col a:hover{text-decoration:underline}
+    .footer-note{font-size:13px;color:var(--accent-2);line-height:1.4}
+    .footer-apps{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .app-badge{background:#111;color:#fff;padding:8px 12px;border-radius:8px;font-size:12px}
+    .app-badge{display:inline-flex;align-items:center;gap:8px}
+    .app-icon{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;background:#fff;color:#111;border-radius:4px}.app-icon svg{width:14px;height:14px;display:block}.app-icon path,.app-icon circle,.app-icon rect,.app-icon polygon{fill:currentColor;stroke:none}
+    .footer-form{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .footer-form input{padding:10px 12px;border:1px solid #222;border-radius:8px;background:#fff;color:#111}
+    .footer-form button{padding:10px 12px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer}
+    .footer-social{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+    .social-pill{width:66px;height:66px;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;color:var(--text);text-decoration:none;background:var(--white)}
+    .social-pill svg{width:36px;height:36px;display:block;transform:translateY(12px)}
+    .social-pill svg path,.social-pill svg circle,.social-pill svg rect{stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .footer-follow-title{margin-top:14px}
+    .footer-bottom{border-top:1px solid var(--border);padding:12px 16px;text-align:center;font-size:12px;color:var(--accent-2)}
+    @media (max-width: 900px){
+      .site-footer .footer-inner{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .site-footer .footer-inner{grid-template-columns:1fr}
+    }
+        /* Simple header */
+    .topbar{background:#111;color:#fff;text-align:center;font-size:12px;letter-spacing:.3px;padding:8px 16px}
+    header.top{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--border);padding:0;display:block}
+    .top .mainbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:12px 16px}
+    .top .brand{text-decoration:none;color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;order:0}
+    .top .nav{display:flex;align-items:center;justify-content:center;gap:24px;flex:1 1 auto;flex-wrap:wrap;order:1}
+    .top .nav a,.top .nav button{border:none;background:transparent;color:var(--text);padding:6px 0;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-family:inherit}
+    .top .nav .icon{display:none}
+    .top .nav-right{display:flex;align-items:center;gap:10px;order:2;margin-left:auto}
+    .top .icon-only{width:34px;height:34px;border:1px solid var(--border);border-radius:50%;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--text);padding:0}
+    .top .icon-only svg{width:18px;height:18px}
+    .top .icon-only svg path,.top .icon-only svg circle,.top .icon-only svg rect{stroke:var(--border);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    #nav-user{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2)}
+    .top .nav-right .pill{border:none;background:transparent;padding:0}
+    @media (max-width:900px){
+      .top .mainbar{flex-wrap:wrap;justify-content:center}
+      .top .brand{flex-basis:100%;text-align:center}
+      .top .nav{justify-content:center;order:2;flex-basis:100%}
+      .top .nav-right{order:1;width:100%;justify-content:center;margin-left:0}
+    }  </style>
+</head>
+<body>
+  <div class="topbar">Enjoy Free Local Shipping with a minimum spend of PHP 1,499</div>
+  <header class="top">
+    <div class="mainbar">
+      <div class="brand">CACAO CENTRAL</div>
+      <div class="nav">
+        <a href="/">Home</a>
+        <a href="/cart.html">Cart (<span id="nav-cart-count">0</span>)</a>
+        <a href="/wishlist.html">Wishlist</a>
+        <a href="/orders.html">Orders</a>
+        <a href="/about.html">About</a>
+        <a href="/admin.html" id="nav-admin" style="display:none">Admin</a>
+      </div>
+      <div class="nav-right">
+        <a href="/login.html" id="nav-profile" class="icon-only" aria-label="Profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg></a>
+        <button id="nav-logout" class="icon-only" style="display:none" aria-label="Logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5"></path><path d="M14 8l4 4-4 4"></path><path d="M18 12H9"></path></svg></button>
+        <div id="nav-user" class="pill">Not logged in</div>
+      </div>
+    </div>
+  </header>
+
+  <h2>Admin</h2>
+  <div id="status"></div>
+
+  <div class="card">
+    <h3>Add Product</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <input id="p-name" placeholder="Name" />
+      <input id="p-price" type="number" placeholder="Price" />
+      <input id="p-stock" type="number" placeholder="Stock" />
+      <input id="p-category" placeholder="Category" />
+      <input id="p-image" placeholder="Image URL" />
+      <textarea id="p-desc" placeholder="Description" rows="3" style="grid-column:1/-1;"></textarea>
+    </div>
+    <button id="p-add" class="btn" style="margin-top:8px;">Add Product</button>
+    <div id="p-msg" style="margin-top:6px;color:#555;"></div>
+  </div>
+
+  <div class="card">
+    <h3>Orders</h3>
+    <div id="orders">Loading...</div>
+  </div>
+
+  <script src="/site.js"></script>
+  <script>
+    const statuses = ["PENDING","PAID","SHIPPED","DELIVERED","CANCELLED"];
+
+    async function requireAdminAccess(){
+      const me = await requireLogin(false);
+      if(!me){
+        document.getElementById("status").textContent = "Please login first.";
+        return null;
+      }
+      if(!me.is_admin){
+        document.getElementById("status").textContent = "Admin only.";
+        return null;
+      }
+      return me;
+    }
+
+    async function loadOrders(){
+      const me = await requireAdminAccess();
+      if(!me) return;
+
+      const r = await fetch("/api/admin/orders");
+      const j = await r.json();
+      if(!j.ok){ document.getElementById("orders").textContent = "Error: " + (j.error||"failed"); return; }
+
+      const orders = j.data || [];
+      if(!orders.length){ document.getElementById("orders").textContent = "No orders."; return; }
+
+      const wrap = document.getElementById("orders");
+      wrap.innerHTML = "";
+      orders.forEach(o => {
+        const d = new Date(o.created_at);
+        const div = document.createElement("div");
+        div.style.borderBottom = "1px solid #eee";
+        div.style.padding = "8px 0";
+
+        const select = document.createElement("select");
+        statuses.forEach(s => {
+          const opt = document.createElement("option");
+          opt.value = s;
+          opt.textContent = s;
+          if(s === o.status) opt.selected = true;
+          select.appendChild(opt);
+        });
+
+        select.addEventListener("change", async ()=>{
+          const r2 = await fetch(`/api/orders/${o.id}/status`, {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({ status: select.value })
+          });
+          const j2 = await r2.json();
+          if(!j2.ok){ alert("Error: " + (j2.error || "failed")); }
+        });
+
+        div.innerHTML = `
+          <b>Order #${o.id}</b> - ${o.user_name} (${o.user_email})<br>
+          Total: ${formatPHP(o.total)} | Discount: ${formatPHP(o.discount)} | Promo: ${o.promo_code || "-"}<br>
+          Shipping: ${o.shipping_name} - ${o.shipping_phone}<br>
+          Address: ${o.shipping_address}<br>
+          Date: ${d.toLocaleString()}<br>
+        `;
+        div.appendChild(select);
+        wrap.appendChild(div);
+      });
+    }
+
+    document.getElementById("p-add").addEventListener("click", async ()=>{
+      const me = await requireAdminAccess();
+      if(!me) return;
+
+      const body = {
+        name: document.getElementById("p-name").value.trim(),
+        price: document.getElementById("p-price").value.trim(),
+        stock: document.getElementById("p-stock").value.trim(),
+        category: document.getElementById("p-category").value.trim(),
+        image_url: document.getElementById("p-image").value.trim(),
+        description: document.getElementById("p-desc").value.trim()
+      };
+
+      const r = await fetch("/api/products", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(body)
+      });
+      const j = await r.json();
+      document.getElementById("p-msg").textContent = j.ok ? "Product added." : ("Error: " + (j.error || "failed"));
+      if(j.ok){
+        document.getElementById("p-name").value = "";
+        document.getElementById("p-price").value = "";
+        document.getElementById("p-stock").value = "";
+        document.getElementById("p-category").value = "";
+        document.getElementById("p-image").value = "";
+        document.getElementById("p-desc").value = "";
+      }
+    });
+
+    loadOrders();
+  </script>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">CACAO CENTRAL</div>
+        <p class="footer-note">Premium cacao goods crafted in the Philippines.</p>
+        <div class="footer-apps">
+          <div class="app-badge app-apple"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7c-3 0-5 2.2-5 5.2 0 3.4 2.1 6.3 5 6.3s5-2.9 5-6.3C17 9.2 15 7 12 7z"/><path d="M12.4 5.2c.9-1.2 2-1.7 3.1-1.8-.1 1.2-.8 2.3-1.6 2.9-.7.6-1.8 1-2.8.9-.1-1.1.4-1.6 1.3-2z"/></svg></span>App Store</div>
+          <div class="app-badge app-play"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></span>Google Play</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Explore</div>
+        <a href="/">Home</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/policy.html">Privacy Policy</a>
+        <a href="/policy.html">Terms of Use</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Customer Care</div>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/orders.html">Track Order</a>
+        <a href="/faq.html">Help Center</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Subscribe &amp; Get 10% Off Your First Order</div>
+        <div class="footer-note">Get exclusive access to new drops, promos, and more.</div>
+        <form class="footer-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!')">
+          <input type="email" placeholder="Your email" required>
+          <button type="submit">Sign Up</button>
+        </form>
+        <div class="footer-title footer-follow-title">Follow Us</div>
+                <div class="footer-social">
+          <a class="social-pill" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="4"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17" cy="7" r="1"></circle>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v5h3v-5h3l1-3h-4v-2c0-.6.4-1 1-1z"></path>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="12" rx="3"></rect>
+              <path d="M10 9l5 3-5 3z"></path>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3c1.2 1.7 2.7 2.6 5 2.7v3c-1.6 0-3-.4-4.5-1.2V14a5 5 0 1 1-5-5"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 CACAO CENTRAL. All rights reserved.</div>
+  </footer></body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

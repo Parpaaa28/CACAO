@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>About</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --accent:#6c584c;
+      --accent-2:#6c584c;
+      --text:#111111;
+      --border:#6c584c;
+      --white:#ffffff;
+    }
+    body{font-family:'Montserrat',Segoe UI,Tahoma,sans-serif;margin:0;color:var(--text);background:var(--bg)}
+    .page{max-width:1100px;margin:0 auto;padding:24px 16px}
+    .hero{padding:32px 0 10px;text-align:center}
+    .hero h1{margin:0;font-size:34px;letter-spacing:.08em;text-transform:uppercase}
+    .hero p{margin:8px auto 0;color:#444;max-width:640px}
+    .about-story{margin-top:26px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+    .about-media{border:1px solid var(--border);background:#f6f1ea;padding:12px}
+    .about-media img{width:100%;height:auto;display:block}
+    .about-copy h2{margin:0 0 10px 0;font-size:20px;letter-spacing:.06em;text-transform:uppercase}
+    .about-copy p{margin:0 0 12px 0;color:#444;line-height:1.6}
+    @media (max-width: 900px){
+      .about-story{grid-template-columns:1fr}
+    }
+    .about-grid{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .dev-card{border:1px solid var(--border);border-radius:0;padding:18px;text-align:center;background:var(--white)}
+    .dev-avatar{width:90px;height:90px;border-radius:50%;margin:0 auto 12px;overflow:hidden;border:1px solid var(--border);background:#f2ebe1;display:flex;align-items:center;justify-content:center}
+    .dev-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .dev-name{font-weight:600;font-size:15px}
+    .dev-role{font-size:11px;color:var(--accent-2);text-transform:uppercase;letter-spacing:.12em;margin-top:6px}
+    .dev-bio{font-size:12px;color:#444;margin-top:10px;line-height:1.6}
+    .dev-tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+    .dev-tag{border:1px solid var(--border);padding:3px 8px;font-size:10px;text-transform:uppercase;letter-spacing:.1em}
+    .info-grid{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .info-card{border:1px solid var(--border);padding:16px;background:var(--white)}
+    .info-card h3{margin:0 0 8px 0;font-size:14px;text-transform:uppercase;letter-spacing:.1em}
+    .info-card p{margin:0;color:#444;line-height:1.6;font-size:13px}
+    .section-divider{margin-top:28px;border-top:1px solid #efe9e2}
+    .fade-item{opacity:0;transform:translateY(18px);transition:opacity 1.2s ease,transform 1.2s ease}
+    .fade-item.in-view{opacity:1;transform:translateY(0)}
+
+    /* Simple header */
+    .topbar{background:#111;color:#fff;text-align:center;font-size:12px;letter-spacing:.3px;padding:8px 16px}
+    header.top{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--border);padding:0;display:block}
+    .top .mainbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:12px 16px}
+    .top .brand{text-decoration:none;color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;order:0}
+    .top .nav{display:flex;align-items:center;justify-content:center;gap:24px;flex:1 1 auto;flex-wrap:wrap;order:1}
+    .top .nav a,.top .nav button{border:none;background:transparent;color:var(--text);padding:6px 0;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-family:inherit}
+    .top .nav .icon{display:none}
+    .top .nav-right{display:flex;align-items:center;gap:10px;order:2;margin-left:auto}
+    .top .icon-only{width:34px;height:34px;border:1px solid var(--border);border-radius:50%;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--text);padding:0}
+    .top .icon-only svg{width:18px;height:18px}
+    .top .icon-only svg path,.top .icon-only svg circle,.top .icon-only svg rect{stroke:var(--border);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    #nav-user{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2)}
+    .top .nav-right .pill{border:none;background:transparent;padding:0}
+    @media (max-width:900px){
+      .top .mainbar{flex-wrap:wrap;justify-content:center}
+      .top .brand{flex-basis:100%;text-align:center}
+      .top .nav{justify-content:center;order:2;flex-basis:100%}
+      .top .nav-right{order:1;width:100%;justify-content:center;margin-left:0}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">Enjoy Free Local Shipping with a minimum spend of PHP 1,499</div>
+  <header class="top">
+    <div class="mainbar">
+      <div class="brand">CACAO CENTRAL</div>
+      <nav class="nav">
+        <a href="/">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 11.5l9-7 9 7"></path>
+            <path d="M5 10.5V20h5v-5h4v5h5V10.5"></path>
+          </svg>
+          Home
+        </a>
+        <a href="/cart.html">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 5h2l2.5 11h9l2-7H7.5"></path>
+            <circle cx="10" cy="19" r="1.5"></circle>
+            <circle cx="17" cy="19" r="1.5"></circle>
+          </svg>
+          Cart (<span id="nav-cart-count">0</span>)
+        </a>
+        <a href="/wishlist.html">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 20s-7-4.4-9-8.2C1.7 9 3.2 6.5 6 6.5c1.8 0 3.1 1 4 2.3 0.9-1.3 2.2-2.3 4-2.3 2.8 0 4.3 2.5 3 5.3C19 15.6 12 20 12 20z"></path>
+          </svg>
+          Wishlist (<span id="nav-wishlist-count">0</span>)
+        </a>
+        <a href="/orders.html">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4" y="6" width="16" height="12" rx="2"></rect>
+            <path d="M4 10h16"></path>
+          </svg>
+          Orders
+        </a>
+        <a href="/about.html">About</a>
+        <a href="/admin.html" id="nav-admin" style="display:none">Admin</a>
+      </nav>
+      <div class="nav-right">
+        <a href="/login.html" id="nav-profile" class="icon-only" aria-label="Profile"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg></a>
+        <button id="nav-logout" class="icon-only" style="display:none" aria-label="Logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5"></path><path d="M14 8l4 4-4 4"></path><path d="M18 12H9"></path></svg></button>
+        <div id="nav-user" class="pill">Not logged in</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="hero fade-item">
+      <h1>Hi, We're CACAO CENTRAL</h1>
+      <p>We craft cacao essentials from bean to bar, celebrating Philippine origins with modern, minimalist design.</p>
+    </div>
+
+    <section class="about-story fade-item">
+      <div class="about-media">
+        <img src="/assets/about-cacao.svg" alt="Cacao Central story">
+      </div>
+      <div class="about-copy">
+        <h2>About the Brand</h2>
+        <p>CACAO CENTRAL is a homegrown cacao shop focused on small-batch quality, traceable sourcing, and everyday rituals. We partner with local farmers and makers to bring you beans, bars, and craft essentials that feel refined yet approachable.</p>
+        <p>From raw cacao and cocoa powders to tools and gift sets, every item is curated for flavor, function, and thoughtful gifting.</p>
+      </div>
+    </section>
+
+    <section class="about-story fade-item" style="margin-top:30px;">
+      <div class="about-copy">
+        <h2>Mission</h2>
+        <p>To celebrate Philippine cacao by making high-quality, responsibly sourced cacao essentials accessible to everyday rituals and gifting.</p>
+      </div>
+      <div class="about-copy">
+        <h2>Vision</h2>
+        <p>To be the most trusted cacao destination in the country, connecting farmers, makers, and modern cacao lovers through thoughtful design and craft.</p>
+      </div>
+    </section>
+
+    <section class="info-grid fade-item">
+      <div class="info-card">
+        <h3>Our Craft</h3>
+        <p>We focus on small-batch roasting, careful fermentation profiles, and flavor-forward recipes that highlight origin.</p>
+      </div>
+      <div class="info-card">
+        <h3>Farm Partners</h3>
+        <p>We collaborate with local farmers and co-ops for traceable beans, fair pricing, and long-term community support.</p>
+      </div>
+      <div class="info-card">
+        <h3>Design Ethos</h3>
+        <p>Minimal, functional packaging that keeps cacao fresh and looks clean on shelves and gift sets.</p>
+      </div>
+    </section>
+
+    <div class="section-divider fade-item"></div>
+
+    <div class="hero fade-item" style="text-align:left;margin-top:20px;">
+      <h1>Meet the Team</h1>
+      <p>The people behind CACAO CENTRAL—designing, building, and curating the cacao experience.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="dev-card fade-item">
+        <div class="dev-avatar"><img src="/assets/dev-placeholder.svg" alt="Jerome Parpa"></div>
+        <div class="dev-name">Jerome Parpa</div>
+        <div class="dev-role">Product Lead</div>
+        <div class="dev-bio">Oversees site structure and flow, making sure every page feels consistent and easy to use.</div>
+        <div class="dev-tags">
+          <span class="dev-tag">UI</span>
+          <span class="dev-tag">UX</span>
+          <span class="dev-tag">Front-End</span>
+        </div>
+      </div>
+      <div class="dev-card fade-item">
+        <div class="dev-avatar"><img src="/assets/dev-placeholder.svg" alt="Samantha Nicole Gino"></div>
+        <div class="dev-name">Samantha Nicole Gino</div>
+        <div class="dev-role">Content & Branding</div>
+        <div class="dev-bio">Crafts the story and visual tone of Cacao Central, from hero copy to brand details.</div>
+        <div class="dev-tags">
+          <span class="dev-tag">Brand</span>
+          <span class="dev-tag">Copy</span>
+          <span class="dev-tag">Layout</span>
+        </div>
+      </div>
+      <div class="dev-card fade-item">
+        <div class="dev-avatar"><img src="/assets/dev-placeholder.svg" alt="Karl Anthony Iluste"></div>
+        <div class="dev-name">Karl Anthony Iluste</div>
+        <div class="dev-role">Backend & Data</div>
+        <div class="dev-bio">Keeps product data, cart logic, and promotions running smoothly behind the scenes.</div>
+        <div class="dev-tags">
+          <span class="dev-tag">API</span>
+          <span class="dev-tag">Data</span>
+          <span class="dev-tag">Logic</span>
+        </div>
+      </div>
+      <div class="dev-card fade-item">
+        <div class="dev-avatar"><img src="/assets/dev-placeholder.svg" alt="Mery Joy Sioson"></div>
+        <div class="dev-name">Mery Joy Sioson</div>
+        <div class="dev-role">QA & Experience</div>
+        <div class="dev-bio">Reviews flows, tests edge cases, and ensures the site stays polished and reliable.</div>
+        <div class="dev-tags">
+          <span class="dev-tag">QA</span>
+          <span class="dev-tag">Testing</span>
+          <span class="dev-tag">Detail</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/site.js"></script>
+  <script>
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("in-view");
+        }else{
+          entry.target.classList.remove("in-view");
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -10% 0px" });
+
+    document.querySelectorAll(".fade-item").forEach(el => fadeObserver.observe(el));
+  </script>
+</body>
+</html>

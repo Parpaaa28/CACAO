@@ -1,0 +1,350 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Login</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#ffffff;
+      --accent:#6c584c;
+      --accent-2:#6c584c;
+      --text:#111111;
+      --border:#6c584c;
+      --white:#ffffff;
+    }
+    body{font-family:'Montserrat',Segoe UI,Tahoma,sans-serif;max-width:none;margin:0;padding:0;color:var(--text);background:var(--bg)}
+    .nav a,.nav button{margin-right:8px;text-decoration:none;color:var(--text);padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--panel);cursor:pointer;transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+.pill{display:inline-block;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--panel)}
+    input,button{padding:10px 12px;border:1px solid var(--border);border-radius:8px;width:100%;box-sizing:border-box}
+    input{background:var(--white);color:var(--text)}
+    button{cursor:pointer;background:var(--accent);color:var(--text);transition:filter .2s ease,background-color .2s ease,color .2s ease}
+    button:hover,button:focus-visible{filter:brightness(0.92)}
+    header.top{position:sticky;top:0;z-index:50;background:var(--panel);padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .brand{font-weight:700;font-size:20px;letter-spacing:.5px}
+    .help{color:var(--accent-2);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+    .wrap{display:grid;grid-template-columns:1.2fr 1fr;min-height:calc(100vh - 58px)}
+    .hero{display:flex;align-items:center;justify-content:center;background:var(--accent);color:var(--white);padding:40px}
+    .hero-inner{max-width:420px;text-align:center}
+    .hero h1{margin:0 0 10px 0;font-size:42px}
+    .hero p{margin:0;font-size:16px;opacity:.9}
+    .card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;max-width:420px;width:100%}
+    .form-area{display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
+    .muted{color:var(--accent-2);font-size:12px}
+    .tabs{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .tab{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-size:13px}
+    .tab.active{background:var(--accent);color:var(--white);border-color:var(--accent)}
+    .divider{flex:1;height:1px;background:var(--border)}
+    .field{margin:6px 0}
+    .input-wrap{position:relative}
+    .toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:transparent;border:none;color:var(--accent-2);cursor:pointer;width:auto;padding:4px 6px}
+    .forgot{display:block;text-align:right;font-size:12px;color:var(--accent-2);text-decoration:none}
+    .cta{margin-top:8px}
+    .small-row{margin-top:8px;text-align:center;font-size:13px;color:var(--accent-2)}
+    .small-row a{color:var(--accent-2);font-weight:700;text-decoration:none}
+    .social{margin-top:10px}
+    .social-title{text-align:center;font-size:12px;color:var(--accent-2);margin:8px 0}
+    .social-buttons{display:flex;gap:8px}
+    .social-buttons button{flex:1;background:var(--panel);color:var(--text);display:flex;align-items:center;justify-content:center;gap:8px}
+    .icon{width:32px;height:32px;display:inline-block}
+    .icon path,.icon circle,.icon rect{stroke:none;fill:currentColor}
+    .help-icon path,.help-icon circle{stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .help-icon .dot{fill:currentColor;stroke:none}
+    .row{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+    .row label{font-size:12px;color:var(--accent-2)}
+    .row input{width:auto}
+    .error{color:#7a3b2e;font-size:12px;margin-top:6px}
+    .footer-links{margin-top:8px;text-align:center;font-size:11px;color:var(--accent-2)}
+    .footer-links a{color:var(--accent-2);text-decoration:none}
+    .qr{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .qr-box{width:44px;height:44px;border:1px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--accent-2)}
+    .loading{opacity:.7;pointer-events:none}
+    @media (max-width: 900px){
+      .wrap{grid-template-columns:1fr}
+      .hero{display:none}
+      .form-area{padding:20px}
+    }
+      /* Footer */
+    .site-footer{margin-top:28px;background:#fff;border-top:1px solid var(--border)}
+    .site-footer .footer-inner{max-width:1200px;margin:0 auto;padding:24px 16px;display:grid;grid-template-columns:1.2fr .8fr .9fr 1.2fr;gap:24px}
+    .site-footer .footer-logo{font-size:26px;font-weight:800;letter-spacing:.5px;color:var(--text);background:var(--panel);display:inline-block;padding:8px 14px;border-radius:10px}
+    .footer-title{font-weight:700;margin-bottom:10px}
+    .footer-col a{display:block;color:var(--text);text-decoration:none;margin:8px 0}
+    .footer-col a:hover{text-decoration:underline}
+    .footer-note{font-size:13px;color:var(--accent-2);line-height:1.4}
+    .footer-apps{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .app-badge{background:#111;color:#fff;padding:8px 12px;border-radius:8px;font-size:12px}
+    .app-badge{display:inline-flex;align-items:center;gap:8px}
+    .app-icon{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;background:#fff;color:#111;border-radius:4px}.app-icon svg{width:14px;height:14px;display:block}.app-icon path,.app-icon circle,.app-icon rect,.app-icon polygon{fill:currentColor;stroke:none}
+    .footer-form{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .footer-form input{padding:10px 12px;border:1px solid #222;border-radius:8px;background:#fff;color:#111}
+    .footer-form button{padding:10px 12px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer}
+    .footer-social{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+    .social-pill{width:66px;height:66px;border:1px solid var(--border);border-radius:50%;display:grid;place-items:center;color:var(--text);text-decoration:none;background:var(--white)}
+    .social-pill svg{width:36px;height:36px;display:block;transform:translateY(12px)}
+    .social-pill svg path,.social-pill svg circle,.social-pill svg rect{stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .footer-follow-title{margin-top:14px}
+    .footer-bottom{border-top:1px solid var(--border);padding:12px 16px;text-align:center;font-size:12px;color:var(--accent-2)}
+    @media (max-width: 900px){
+      .site-footer .footer-inner{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .site-footer .footer-inner{grid-template-columns:1fr}
+    }
+        /* Simple header */
+    .topbar{background:#111;color:#fff;text-align:center;font-size:12px;letter-spacing:.3px;padding:8px 16px}
+    header.top{position:sticky;top:0;z-index:60;background:var(--panel);border-bottom:1px solid var(--border);padding:0;display:block}
+    .top .mainbar{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:12px 16px}
+    .top .brand{text-decoration:none;color:var(--accent);font-weight:700;letter-spacing:2px;text-transform:uppercase;order:0}
+    .top .nav{display:flex;align-items:center;justify-content:center;gap:24px;flex:1 1 auto;flex-wrap:wrap;order:1}
+    .top .nav a,.top .nav button{border:none;background:transparent;color:var(--text);padding:6px 0;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-family:inherit}
+    .top .nav .icon{display:none}
+    .top .nav-right{display:flex;align-items:center;gap:10px;order:2;margin-left:auto}
+    .top .icon-only{width:34px;height:34px;border:1px solid var(--border);border-radius:50%;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--text);padding:0}
+    .top .icon-only svg{width:18px;height:18px}
+    .top .icon-only svg path,.top .icon-only svg circle,.top .icon-only svg rect{stroke:var(--border);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    #nav-user{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-2)}
+    .top .nav-right .pill{border:none;background:transparent;padding:0}
+    @media (max-width:900px){
+      .top .mainbar{flex-wrap:wrap;justify-content:center}
+      .top .brand{flex-basis:100%;text-align:center}
+      .top .nav{justify-content:center;order:2;flex-basis:100%}
+      .top .nav-right{order:1;width:100%;justify-content:center;margin-left:0}
+    }  </style>
+</head>
+<body>
+  <div class="topbar">Enjoy Free Local Shipping with a minimum spend of PHP 1,499</div>
+  <header class="top">
+    <div class="mainbar">
+    <div class="brand">CACAO CENTRAL</div>
+    <a class="help" href="/contact.html">
+      <svg class="help-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M9.5 9a2.5 2.5 0 1 1 4.2 1.9c-.8.6-1.2 1-1.2 2"></path>
+        <circle class="dot" cx="12" cy="17" r="1.2"></circle>
+      </svg>
+      Need help?
+    </a>
+      </div>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-inner">
+        <h1>Welcome Back</h1>
+        <p>Your cacao essentials are waiting. Sign in to continue.</p>
+      </div>
+    </div>
+    <div class="form-area">
+      <div class="card">
+        <div class="nav" style="margin-bottom:10px;">
+          <a href="/">Home</a>
+          <a href="/about.html">About</a>
+      <a href="/login.html" id="nav-profile">Profile</a>
+          <button id="nav-logout" style="display:none;width:auto">Logout</button>
+          <a href="/admin.html" id="nav-admin" style="display:none">Admin</a>
+        </div>
+        <div class="tabs">
+          <div class="tab active">Password Login</div>
+        </div>
+        <h2 style="margin:6px 0 10px 0;">Log In</h2>
+        <form id="f">
+          <input class="field" name="email" placeholder="Phone number or email" required autofocus />
+          <div class="input-wrap">
+            <input class="field" id="password" name="password" type="password" placeholder="Enter your password" required />
+            <button class="toggle" type="button" id="toggle">Show</button>
+          </div>
+          <div class="row">
+            <label><input type="checkbox" id="remember"> Remember me</label>
+            <a class="forgot" href="#">Forgot password?</a>
+          </div>
+          <button class="cta">Log In</button>
+        </form>
+        <p class="small-row">Don't have an account? <a href="/register.html">Sign up</a></p>
+        <div class="social">
+          <div class="social-title">Or, login with</div>
+          <div class="social-buttons">
+            <button type="button" id="google-btn">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.3-1.6 3.8-5.5 3.8-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.9 1.5l2.6-2.5C16.9 3 14.7 2 12 2 6.9 2 2.8 6.1 2.8 12S6.9 22 12 22c6.9 0 8.6-4.8 8.6-7.2 0-.5-.1-.9-.1-1.3H12z"/>
+                <path fill="#34A853" d="M3.8 7.5l3.2 2.3C7.8 8 9.7 6.7 12 6.7c1.9 0 3.1.8 3.9 1.5l2.6-2.5C16.9 3 14.7 2 12 2 8.2 2 4.9 4.2 3.8 7.5z"/>
+                <path fill="#FBBC05" d="M12 22c2.3 0 4.3-.8 5.8-2.1l-2.7-2.2c-.8.5-1.9.9-3.1.9-2.3 0-4.3-1.5-5-3.5l-3.2 2.4C4.9 19.8 8.2 22 12 22z"/>
+                <path fill="#4285F4" d="M20.5 12.8c0-.5-.1-.9-.1-1.3H12v3.9h5.5c-.3 1.3-1.6 3.8-5.5 3.8v3.1c3.2 0 5.7-1.1 7.1-3.1 1.2-1.7 1.4-3.8 1.4-6.4z"/>
+              </svg>
+              Google
+            </button>
+            <button type="button" id="fb-btn">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#1877F2" d="M22 12.1C22 6.6 17.5 2 12 2S2 6.6 2 12.1c0 5 3.6 9.2 8.3 10v-7.1H7.8v-2.9h2.5V9.7c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6v1.9h2.8l-.4 2.9h-2.4v7.1C18.4 21.3 22 17.1 22 12.1z"/>
+              </svg>
+              Facebook
+            </button>
+          </div>
+        </div>
+        <p id="msg" class="error"></p>
+        <div class="footer-links">
+          By continuing, you agree to our <a href="/policy.html">Terms</a> and <a href="/policy.html">Privacy</a>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/site.js"></script>
+  <script>
+    const form = document.getElementById("f");
+    const msg = document.getElementById("msg");
+    const toggle = document.getElementById("toggle");
+    const pwd = document.getElementById("password");
+    const googleBtn = document.getElementById("google-btn");
+    const fbBtn = document.getElementById("fb-btn");
+    const remember = document.getElementById("remember");
+    const emailInput = document.querySelector('input[name="email"]');
+
+    const savedEmail = localStorage.getItem("remember_email");
+    if(savedEmail){
+      emailInput.value = savedEmail;
+      remember.checked = true;
+    }
+
+    toggle.addEventListener("click", ()=>{
+      const isPwd = pwd.type === "password";
+      pwd.type = isPwd ? "text" : "password";
+      toggle.textContent = isPwd ? "Hide" : "Show";
+    });
+
+    googleBtn.addEventListener("click", ()=>{
+      alert("Google login is not set up yet.");
+    });
+    fbBtn.addEventListener("click", ()=>{
+      alert("Facebook login is not set up yet.");
+    });
+
+    form.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const body = Object.fromEntries(fd.entries());
+      if(!body.email || !body.password){
+        msg.textContent = "Please complete all fields.";
+        return;
+      }
+      msg.textContent = "";
+      form.classList.add("loading");
+
+      if(remember.checked) localStorage.setItem("remember_email", body.email || "");
+      else localStorage.removeItem("remember_email");
+
+      const r = await fetch("/api/auth/login", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(body)
+      });
+      const j = await r.json();
+      msg.textContent = j.ok ? "Login success!" : ("Error: " + (j.error || "failed"));
+      form.classList.remove("loading");
+      if(j.ok) setTimeout(()=>location.href="/", 500);
+    });
+  </script>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">CACAO CENTRAL</div>
+        <p class="footer-note">Premium cacao goods crafted in the Philippines.</p>
+        <div class="footer-apps">
+          <div class="app-badge app-apple"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7c-3 0-5 2.2-5 5.2 0 3.4 2.1 6.3 5 6.3s5-2.9 5-6.3C17 9.2 15 7 12 7z"/><path d="M12.4 5.2c.9-1.2 2-1.7 3.1-1.8-.1 1.2-.8 2.3-1.6 2.9-.7.6-1.8 1-2.8.9-.1-1.1.4-1.6 1.3-2z"/></svg></span>App Store</div>
+          <div class="app-badge app-play"><span class="app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></span>Google Play</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Explore</div>
+        <a href="/">Home</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/policy.html">Privacy Policy</a>
+        <a href="/policy.html">Terms of Use</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Customer Care</div>
+        <a href="/contact.html">Contact Us</a>
+        <a href="/orders.html">Track Order</a>
+        <a href="/faq.html">Help Center</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-title">Subscribe &amp; Get 10% Off Your First Order</div>
+        <div class="footer-note">Get exclusive access to new drops, promos, and more.</div>
+        <form class="footer-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!')">
+          <input type="email" placeholder="Your email" required>
+          <button type="submit">Sign Up</button>
+        </form>
+        <div class="footer-title footer-follow-title">Follow Us</div>
+                <div class="footer-social">
+          <a class="social-pill" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="4" width="16" height="16" rx="4"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17" cy="7" r="1"></circle>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v5h3v-5h3l1-3h-4v-2c0-.6.4-1 1-1z"></path>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="12" rx="3"></rect>
+              <path d="M10 9l5 3-5 3z"></path>
+            </svg>
+          </a>
+          <a class="social-pill" href="#" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14 3c1.2 1.7 2.7 2.6 5 2.7v3c-1.6 0-3-.4-4.5-1.2V14a5 5 0 1 1-5-5"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 CACAO CENTRAL. All rights reserved.</div>
+  </footer></body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
