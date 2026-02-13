@@ -41,8 +41,8 @@
     input,button,textarea,select{padding:8px 10px;border:1px solid var(--border);border-radius:0;font-family:inherit}
     input,textarea,select{background:var(--white);color:var(--text);box-sizing:border-box}
     button{cursor:pointer}
-    .btn{padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--accent);cursor:pointer;color:var(--text);transition:filter .2s ease,transform .2s ease,box-shadow .2s ease}
-    .btn-secondary{background:var(--panel)}
+    .btn{padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--accent);cursor:pointer;color:var(--white);transition:filter .2s ease,transform .2s ease,box-shadow .2s ease}
+    .btn-secondary{background:var(--panel);color:var(--text)}
     .btn:hover,.btn:focus-visible{filter:brightness(.93);transform:translateY(-1px);box-shadow:0 4px 10px rgba(108,88,76,.15)}
     .btn:active{transform:translateY(0);filter:brightness(.9)}
     .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
@@ -174,9 +174,6 @@
         <input id="ship-phone" class="field-input" placeholder="Phone number" />
         <select id="ship-zone" class="field-input">
           <option value="0">Select delivery zone</option>
-          <option value="49">Metro (PHP 49)</option>
-          <option value="79">Provincial (PHP 79)</option>
-          <option value="99">Far Provincial (PHP 99)</option>
         </select>
         <div id="ship-eta" class="eta-text">Estimated delivery: Select delivery zone</div>
       </div>
@@ -208,6 +205,7 @@
     let currentPromo = null;
     let discount = 0;
     let shippingFee = 0;
+    let shippingZones = [];
 
     function ratingFor(p){
       const base = 4 + ((Number(p.id || 1) * 7) % 10) / 10;
@@ -369,16 +367,30 @@
       await load();
     });
 
+    async function loadShippingZones(){
+      const sel = document.getElementById("ship-zone");
+      try{
+        const r = await fetch("/api/shipping-zones");
+        const j = await r.json();
+        if(!j.ok) return;
+        shippingZones = j.data || [];
+        sel.innerHTML = "<option value=\"0\">Select delivery zone</option>";
+        shippingZones.forEach(z => {
+          const opt = document.createElement("option");
+          opt.value = String(z.fee || 0);
+          opt.textContent = `${z.name} (PHP ${Number(z.fee || 0).toFixed(0)})`;
+          opt.dataset.eta = z.eta_text || "";
+          sel.appendChild(opt);
+        });
+      }catch(e){}
+    }
+
     function updateEta(){
-      const zone = Number(document.getElementById("ship-zone").value || 0);
-      let eta = "Select delivery zone";
-      if(zone === 49) eta = "1–2 days";
-      if(zone === 79) eta = "3–5 days";
-      if(zone === 99) eta = "5–7 days";
+      const sel = document.getElementById("ship-zone");
+      const eta = sel?.selectedOptions[0]?.dataset?.eta || "Select delivery zone";
       const etaEl = document.getElementById("ship-eta");
       if(etaEl) etaEl.textContent = `Estimated delivery: ${eta}`;
     }
-
     document.getElementById("ship-zone").addEventListener("change", (e)=>{
       shippingFee = Number(e.target.value || 0);
       updateSummary(subtotal, discount);
@@ -442,7 +454,7 @@
       renderCart(filtered);
     });
 
-    updateEta();
+    loadShippingZones().then(updateEta);
     load();
   </script>
   <footer class="site-footer">
@@ -506,6 +518,7 @@
     <div class="footer-bottom">&copy; 2026 CACAO CENTRAL. All rights reserved.</div>
   </footer></body>
 </html>
+
 
 
 

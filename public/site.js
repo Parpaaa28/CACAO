@@ -37,6 +37,21 @@ async function updateNav(){
     };
   }
 
+  // hide buyer nav links if admin is logged in
+  const isAdmin = !!user?.is_admin;
+  const hideSelectors = [
+    '.nav a[href="/"]',
+    '.nav a[href="/cart.html"]',
+    '.nav a[href="/wishlist.html"]',
+    '.nav a[href="/orders.html"]',
+    '.nav a[href="/about.html"]'
+  ];
+  hideSelectors.forEach((sel) => {
+    document.querySelectorAll(sel).forEach((el) => {
+      el.style.display = isAdmin ? "none" : "";
+    });
+  });
+
   await updateCartBadge();
   await updateWishlistBadge();
 }
